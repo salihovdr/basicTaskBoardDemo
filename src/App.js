@@ -1,25 +1,80 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './grid.css';
+import Column from './components/Column';
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state={
+      taskBoard:[]
+    }
+    this.categories = ['This Week', 'Today', 'In Progress', 'Waiting To Discuss', 'Waiting For Feedback', 'Done'];
+  }
+
+  addToBoard(taskObj){
+    this.setState({
+      taskBoard: [...this.state.taskBoard, taskObj]
+    })
+    // localStorage.setItem(category, JSON.stringify(this.state.taskBoard[category]));
+  }
+
+  handleMoveToRight(taskObj){
+    const {id, category} = taskObj;
+    const nextCategoryIndex = this.categories.findIndex(cat=>cat === category)+1;
+    const nextCategory = this.categories[nextCategoryIndex];
+    const updatedTaskList = this.state.taskBoard.map(task => {
+      if (task.id === id){
+        task.category = nextCategory;
+      }
+      return task;
+    });
+    this.setState({
+      taskBoard: updatedTaskList 
+    })
+  }
+
+  handleMoveToLeft(taskObj){
+    const {id, category} = taskObj;
+    const previousCategoryIndex = this.categories.findIndex(cat=>cat === category)-1;
+    const previousCategory = this.categories[previousCategoryIndex];
+    const updatedTaskList = this.state.taskBoard.map(task => {
+      if (task.id === id){
+        task.category = previousCategory;
+      }
+      return task;
+    });
+    this.setState({
+      taskBoard: updatedTaskList 
+    })
+  }
+
   render() {
+    let columns = this.categories.map((category, i) => {
+      return <Column 
+              key={i}
+              category={category}
+              categories = {this.categories}
+              tasks={this.state.taskBoard } 
+              addToBoard={task => this.addToBoard(task)}
+              moveToRight={task => this.handleMoveToRight(task)}
+              moveToLeft={task => this.handleMoveToLeft(task)}
+            />
+    })
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-12'>
+              <header className="App-header">
+                <h1>Task Board</h1>
+              </header>
+            </div>
+          </div>
+          <div className='row'>
+            { columns }
+          </div>
+        </div>
       </div>
     );
   }
