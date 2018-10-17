@@ -20,7 +20,7 @@ class App extends Component {
 		if(!this.state.taskBoard.length){
 			let existingTasks = JSON.parse( localStorage.getItem('taskBoard') );
 			this.setState({
-				taskBoard: existingTasks
+				taskBoard: existingTasks || []
 			});
 
 		}
