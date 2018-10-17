@@ -64,7 +64,7 @@ class App extends Component {
 
 	render() {
 		let columns = this.categories.map((category, i) => {
-			return <Column 
+			return (<Column 
 				key={i}
 				category={category}
 				categories = {this.categories}
@@ -72,7 +72,7 @@ class App extends Component {
 				addToBoard={task => this.addToBoard(task)}
 				moveToRight={task => this.handleMoveToRight(task)}
 				moveToLeft={task => this.handleMoveToLeft(task)}
-			/>;
+			/>);
 		});
 		return (
 			<div className="App">
