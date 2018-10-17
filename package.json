@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "simple taskboard",
   "main": "App.js",
-  "scripts": {
-    "build": "babel src -d lib"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/salihovdr/basicTaskBoardDemo.git"
@@ -19,6 +16,11 @@
   "dependencies": {
     "uuid": "^3.3.2"
   },
+"scripts": {
+  "start": "node index.js",
+  "test": "mocha",
+  "postinstall": "bower install && grunt build"
+},
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "eslint": "^5.7.0",
